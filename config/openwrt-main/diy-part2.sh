@@ -25,11 +25,20 @@ echo "DISTRIB_SOURCECODE='official'" >>package/base-files/files/etc/openwrt_rele
 # Add luci-app-amlogic
 rm -rf package/luci-app-amlogic
 git clone https://github.com/ophub/luci-app-amlogic.git package/luci-app-amlogic
+
 # 移除 package/openclash（如果存在）
 if [ -d "package/openclash" ]; then
     rm -rf package/openclash
     echo "已删除目录 package/openclash。"
 fi
+
+# 创建 package/openclash 目录
+mkdir -p package/openclash
+if [ $? -ne 0 ] || [ ! -d "package/openclash" ]; then
+    echo "创建目录 package/openclash 失败。"
+    exit 1
+fi
+echo "已创建目录 package/openclash。"
 
 # 创建临时目录
 mkdir -p tmp
@@ -50,6 +59,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo "已解压 master.zip 到 tmp 目录。"
+
+# 检查解压后的目录是否存在
+if [ ! -d "tmp/OpenClash-master/luci-app-openclash" ]; then
+    echo "解压后的目录 tmp/OpenClash-master/luci-app-openclash 不存在。"
+    exit 1
+fi
 
 # 拷贝解压后的 luci-app-openclash 内容到 package/openclash
 cp -r tmp/OpenClash-master/luci-app-openclash/* package/openclash/
