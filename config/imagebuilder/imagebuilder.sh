@@ -203,6 +203,9 @@ rebuild_firmware() {
         \
         luci-app-amlogic luci-i18n-amlogic-zh-cn \
         \
+        ca-certificates ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag \
+        kmod-nft-tproxy \
+        \
         ${config_list} \
         "
 
